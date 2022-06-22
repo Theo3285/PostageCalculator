@@ -2,14 +2,24 @@ package com.kata;
 
 /**
  * Created by christophe on 11/11/2017.
- *
  */
 public class Calculator {
 
     public Money calculate(int weight, int height, int width, int depth, Currency currency) throws Exception {
-        Package aPackage = Package.withDimensions(weight, height, width, depth);
-        double postageInBaseCurrency = aPackage.postageInBaseCurrency();
+        double postageInBaseCurrency = postageInBaseCurrency(weight, height, width, depth);
         return convertCurrency(postageInBaseCurrency, currency);
+    }
+
+    private double postageInBaseCurrency(int weight, int height, int width, int depth) {
+        if (weight <= 60 && height <= 229 && width <= 162 && depth <= 25)
+        {
+            return 120;
+        }
+        if (weight <= 500 && height <= 324 && width <= 229 && depth <= 100)
+        {
+            return weight*4;
+        }
+        return Math.max(weight, height*width*depth/1000)*6;
     }
 
     private Money convertCurrency(double amountInBaseCurrency, Currency currency) throws Exception {
